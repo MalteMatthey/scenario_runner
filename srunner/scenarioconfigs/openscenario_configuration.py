@@ -11,9 +11,7 @@ This module provides the key configuration parameters for a scenario based on Op
 
 import logging
 import os
-import xml.etree.ElementTree as ET
-
-import xmlschema
+from lxml import etree as ET
 
 import carla
 
@@ -66,8 +64,10 @@ class OpenScenarioConfiguration(ScenarioConfiguration):
         Note: This will throw if the config is not valid. But this is fine here.
         """
         xsd_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../openscenario/OpenSCENARIO.xsd")
-        xsd = xmlschema.XMLSchema(xsd_file)
-        xsd.validate(self.xml_tree)
+        with open(xsd_file, 'rb') as f:
+            schema_doc = ET.parse(f)
+        schema = ET.XMLSchema(schema_doc)
+        schema.assertValid(self.xml_tree)
 
     def _validate_openscenario_catalog_configuration(self, catalog_xml_tree):
         """
@@ -76,8 +76,10 @@ class OpenScenarioConfiguration(ScenarioConfiguration):
         Note: This will throw if the catalog config is not valid. But this is fine here.
         """
         xsd_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../openscenario/OpenSCENARIO.xsd")
-        xsd = xmlschema.XMLSchema(xsd_file)
-        xsd.validate(catalog_xml_tree)
+        with open(xsd_file, 'rb') as f:
+            schema_doc = ET.parse(f)
+        schema = ET.XMLSchema(schema_doc)
+        schema.assertValid(catalog_xml_tree)
 
     def _parse_openscenario_configuration(self):
         """

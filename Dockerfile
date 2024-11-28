@@ -24,7 +24,7 @@ RUN update-alternatives --install /usr/bin/python python /usr/bin/python2.7 1
 # Install Python dependencies
 RUN pip install --upgrade pip==20.3.4 setuptools==44.1.1 wheel==0.34.2 && \
     pip install py_trees==0.5.1 networkx==1.11 pygame==1.9.6 \
-    six==1.14.0 numpy==1.16.6 psutil==5.7.0 shapely==1.6.4 xmlschema==0.9.14 \
+    six==1.14.0 numpy==1.16.6 psutil==5.7.0 shapely==1.6.4 lxml==4.6.3 \
     ephem==3.7.6.0 tabulate==0.8.7 && \
     mkdir -p /app/scenario_runner
 

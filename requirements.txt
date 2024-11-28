@@ -2,8 +2,8 @@ py-trees==0.8.3
 networkx==2.2
 Shapely==1.7.1
 psutil
-xmlschema==1.0.18
 ephem
+lxml==4.6.3
 tabulate
 opencv-python==4.2.0.32
 numpy
