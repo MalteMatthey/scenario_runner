@@ -17,7 +17,7 @@ if [[ $DOCKER_VERSION < "19.03" ]]; then
     if command -v nvidia-docker &> /dev/null; then
         RUNTIME="--runtime=nvidia"
     else
-        echo "Warning: nvidia-docker ist nicht installiert. Führe ohne GPU-Unterstützung aus."
+        echo "Warning: nvidia-docker not installed. Running without GPU support."
         RUNTIME=""
     fi
 else
@@ -31,15 +31,16 @@ fi
 
 xhost +local:docker
 docker run \
-    -it --rm \
+    -it \
+    --name scenario-runner-container \
     --volume=$(pwd):/app/scenario_runner:rw \
     --volume=${LOCAL_CARLA_PATH}:/app/carla:rw \
     --env="DISPLAY=${DISPLAY}" \
     --env="CARLA_ROOT=/app/carla" \
-    --env="PYTHONPATH=/app/scenario_runner/srunner:/app/scenario_runner:/app/carla/PythonAPI/carla/dist/carla-0.9.13-py3.7-linux-x86_64.egg:/app/carla/PythonAPI/carla:/app/carla/PythonAPI" \
+    --env="PYTHONPATH=/app/scenario_runner/srunner:/app/scenario_runner:/app/carla/PythonAPI/carla/dist/carla-0.9.13-py2.7-linux-x86_64.egg:/app/carla/PythonAPI/carla:/app/carla/PythonAPI" \
     --env="XAUTHORITY=${XAUTH}" \
     --volume="${XAUTH}:${XAUTH}" \
     --privileged \
     --network="host" \
     $RUNTIME \
-    scenario-runner-docker
+    scenario-runner
